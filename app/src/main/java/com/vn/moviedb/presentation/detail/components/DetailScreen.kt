@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb
+package com.vn.moviedb.presentation.detail.components
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import coil.annotation.ExperimentalCoilApi
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+@OptIn(ExperimentalCoilApi::class)
+@Composable
+fun detailScreen() {
+    Text(text = "Detail Screen")
+}
+
+@Preview
+@Composable
+fun previewDetailScreen() {
+    detailScreen()
 }
