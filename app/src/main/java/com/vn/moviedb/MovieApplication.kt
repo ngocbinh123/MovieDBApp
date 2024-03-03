@@ -15,17 +15,23 @@
  */
 package com.vn.moviedb
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import android.app.Application
+import com.vn.moviedb.di.appModules
+import org.koin.android.BuildConfig
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.logger.Level.DEBUG
+import org.koin.core.logger.Level.NONE
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+class MovieApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidLogger(if (BuildConfig.DEBUG) DEBUG else NONE)
+            androidContext(this@MovieApplication)
+            modules(appModules)
+        }
     }
 }
