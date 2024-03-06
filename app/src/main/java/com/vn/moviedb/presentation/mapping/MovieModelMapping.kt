@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.presentation.landing
+package com.vn.moviedb.presentation.mapping
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import com.vn.moviedb.BuildConfig
+import com.vn.moviedb.domain.entities.MovieEntity
 import com.vn.moviedb.presentation.models.MovieModel
 
-class LandingViewModel : ViewModel() {
-    private val _movieList = mutableStateOf<List<MovieModel>>(emptyList())
-    val movieList: State<List<MovieModel>> = _movieList
-
-//    internal var movieList = MutableLiveData(emptyList<MovieModel>())
-//        private set
-    internal fun updateMovies(ls: List<MovieModel>) {
-        _movieList.value = ls
-    }
-}
+internal fun MovieEntity.toModel() =
+    MovieModel(
+        adult = adult,
+        backdropPath = BuildConfig.IMAGE_URL + this.backdropPath,
+        genreIds = genreIds,
+        id = id,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        releaseDate = releaseDate,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount,
+    )

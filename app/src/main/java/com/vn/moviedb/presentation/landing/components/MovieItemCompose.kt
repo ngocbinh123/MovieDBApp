@@ -53,13 +53,13 @@ fun movieItemCompose(
             modifier = Modifier.padding(spacing8),
         ) {
             Image(
-                painter = rememberAsyncImagePainter(movie.thumbnailUrl),
-                contentDescription = movie.name,
+                painter = rememberAsyncImagePainter(movie.backdropPath),
+                contentDescription = movie.title,
                 modifier = Modifier.size(cardHeight),
             )
             Spacer(modifier = Modifier.height(spacing8))
             Text(
-                text = movie.name,
+                text = movie.title,
                 style = MaterialTheme.typography.bodyMedium,
             )
         }
@@ -71,12 +71,6 @@ fun movieItemCompose(
 @Preview
 @Composable
 fun previewMovieItemCompose() {
-    val draftMovie =
-        MovieModel(
-            "movie01",
-            "Code 8",
-            "https://via.placeholder.com/150",
-        )
-    movieItemCompose(draftMovie) {
+    movieItemCompose(movie1) {
     }
 }

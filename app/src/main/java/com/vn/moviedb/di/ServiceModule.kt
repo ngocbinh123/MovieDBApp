@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.domain.entities
+package com.vn.moviedb.di
 
-data class MovieEntity(
-    val adult: Boolean,
-    val backdropPath: String,
-    val genreIds: List<Int>,
-    val id: Int,
-    val originalLanguage: String,
-    val originalTitle: String,
-    val overview: String,
-    val popularity: Double,
-    val releaseDate: String,
-    val title: String,
-    val video: Boolean,
-    val voteAverage: Double,
-    val voteCount: Int,
-)
+import com.vn.moviedb.presentation.services.GetMoviesService
+import org.koin.dsl.module
+
+val serviceModule =
+    module {
+        single<GetMoviesService> { GetMoviesService() }
+    }

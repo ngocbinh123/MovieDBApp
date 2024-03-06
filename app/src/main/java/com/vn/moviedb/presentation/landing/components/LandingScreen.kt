@@ -38,7 +38,6 @@ fun landingScreen(
     ) {
         items(
             count = movieList.size,
-            key = { pos -> movieList[pos].id },
         ) { pos ->
             movieItemCompose(movie = movieList[pos], onclickMovieItemListener)
         }
@@ -48,14 +47,6 @@ fun landingScreen(
 @Preview
 @Composable
 fun previewLandingScreen() {
-    val movieList =
-        listOf(
-            MovieModel("1", "Movie 1", "https://via.placeholder.com/150"),
-            MovieModel("2", "Movie 2", "https://via.placeholder.com/150"),
-            MovieModel("3", "Movie 3", "https://via.placeholder.com/150"),
-            MovieModel("4", "Movie 4", "https://via.placeholder.com/150"),
-            MovieModel("5", "Movie 5", "https://via.placeholder.com/150"),
-        )
-    landingScreen(movieList) {
+    landingScreen(draftMovies) {
     }
 }

@@ -15,14 +15,7 @@
  */
 package com.vn.moviedb.data.api.responses
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Suppress("PLUGIN_IS_NOT_ENABLED")
-@Serializable
 data class MovieListResponse(
-    @SerialName("page")
     val page: Int,
-    @SerialName("results")
-    val movies: List<MovieResponse>,
+    val results: List<MovieResponse>,
 )
