@@ -90,10 +90,6 @@ dependencies {
 //    koin - cicd tools
     implementation("io.insert-koin:koin-android:3.2.2")
 
-//    room database
-    implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
-
 //    navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")

@@ -58,7 +58,7 @@ fun detailScreen(movie: MovieModel,
             Image(
                 painter = painter,
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(detailImageHeight)
