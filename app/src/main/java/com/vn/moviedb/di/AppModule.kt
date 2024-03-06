@@ -23,4 +23,5 @@ val appModules =
         databaseModule,
         repoModule,
         useCaseModule,
+        serviceModule,
     )

@@ -20,6 +20,7 @@ import com.vn.moviedb.BuildConfig
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.scope.Scope
@@ -36,16 +37,6 @@ val retrofitModule =
         single { GsonBuilder().create() }
         single { retrofitHttpClient() }
         single { retrofitBuilder() }
-        single {
-            Interceptor { chain ->
-                chain.proceed(
-                    chain.request().newBuilder().apply {
-                        header("Accept", "application/json")
-                        header("Authorization", "Bearer ${BuildConfig.API_KEY}")
-                    }.build(),
-                )
-            }
-        }
     }
 
 private fun Scope.retrofitBuilder(): Retrofit {
@@ -73,5 +64,17 @@ private fun Scope.retrofitHttpClient(): OkHttpClient {
                     }
             },
         )
+        addInterceptor(AuthorizationInterceptor())
     }.build()
+}
+
+class AuthorizationInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request =
+            chain.request().newBuilder().apply {
+                header("Accept", "application/json")
+                header("Authorization", "Bearer ${BuildConfig.API_KEY}")
+            }.build()
+        return chain.proceed(request)
+    }
 }

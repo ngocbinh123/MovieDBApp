@@ -15,7 +15,9 @@
  */
 package com.vn.moviedb.domain.usecases.movies
 
+import android.util.Log
 import com.vn.moviedb.data.repo.movie.GetRemoteMoviesRepo
+import com.vn.moviedb.domain.mapping.toEntity
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -25,7 +27,9 @@ class GetRemoteMoviesUseCase : KoinComponent {
 
     fun getRemoteMoviesFlow() =
         flow {
-            val response = repo.getRemotePriceList()
-            emit(response)
+            val response = repo.getRemoteMoviesList()
+            Log.d("NNBINH", "GetRemoteMoviesUseCase output: $response")
+            val entities = response.results.map { it.toEntity() }
+            emit(entities)
         }
 }

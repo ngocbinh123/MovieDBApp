@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.domain.entities
+package com.vn.moviedb.presentation.models
 
-data class MovieEntity(
-    val adult: Boolean,
-    val backdropPath: String,
-    val genreIds: List<Int>,
-    val id: Int,
-    val originalLanguage: String,
-    val originalTitle: String,
-    val overview: String,
-    val popularity: Double,
-    val releaseDate: String,
-    val title: String,
-    val video: Boolean,
-    val voteAverage: Double,
-    val voteCount: Int,
-)
+sealed class GetRemoteMovieState {
+    data object Idle : GetRemoteMovieState()
+
+    data object Loading : GetRemoteMovieState()
+
+    data class Success(val ls: List<MovieModel>) : GetRemoteMovieState()
+}

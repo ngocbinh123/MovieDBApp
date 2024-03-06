@@ -15,19 +15,36 @@
  */
 package com.vn.moviedb.presentation.landing
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.vn.moviedb.R
 import com.vn.moviedb.presentation.landing.components.landingScreen
+import com.vn.moviedb.presentation.models.GetRemoteMovieState
+import com.vn.moviedb.presentation.services.GetMoviesService
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LandingFragment : Fragment() {
     private val viewModel: LandingViewModel by viewModel()
+    private var getMoviesService: GetMoviesService? = null
+    private lateinit var serviceConnection: ServiceConnection
+
+    override fun onStart() {
+        super.onStart()
+        bindToService()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,11 +54,68 @@ class LandingFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 landingScreen(
-                    viewModel.movieList.value ?: emptyList(),
+                    viewModel.movieList.value,
                 ) { movie ->
                     findNavController().navigate(R.id.action_landingFragment_to_detailFragment)
                 }
             }
         }
+    }
+
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unbindService()
+    }
+
+    private fun setupObservers() {
+        lifecycleScope.launch {
+            getMoviesService?.allMoviesStateFlow?.collect { state ->
+                when (state) {
+                    GetRemoteMovieState.Loading -> {
+//                        show loading
+                    }
+                    is GetRemoteMovieState.Success -> {
+                        Log.d("NNBINH", "setupObservers: Success: ${state.ls.size}")
+                        viewModel.updateMovies(state.ls)
+                    }
+                    else -> {
+//                        hide loading
+                    }
+                }
+            }
+        }
+    }
+
+    private fun bindToService() {
+        val intent = Intent(requireContext(), GetMoviesService::class.java)
+        serviceConnection =
+            object : ServiceConnection {
+                override fun onServiceConnected(
+                    name: ComponentName?,
+                    service: IBinder?,
+                ) {
+                    Log.d("NNBINH", "GetMoviesService: onServiceConnected")
+                    val binder = service as GetMoviesService.MovieBinder
+                    getMoviesService = binder.getService()
+                    setupObservers()
+                }
+
+                override fun onServiceDisconnected(name: ComponentName?) {
+                    Log.d("NNBINH", "GetMoviesService: onServiceDisconnected")
+                    getMoviesService = null
+                }
+            }
+        requireContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    private fun unbindService() {
+        requireContext().unbindService(serviceConnection)
     }
 }
