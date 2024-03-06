@@ -1,4 +1,11 @@
 # MovieDBApp
+## Agenda 
+- [How to setup project](#How to setup project)
+- [Screens](#Screens)
+- [Services](#Services)
+- [Architecture](#Architecture)
+- [Technologies](#Technologies)
+- [Demo](#Demo)
 ## How to setup project
     1. Register account on https://www.themoviedb.org/movie
     2. Get API KEY from your account
@@ -13,11 +20,11 @@
         $KEY_MOVIE_API
     7. [Project] if abobe step is passed, you should clean and rebuild project
 
-## Screens: 2 screens
+## Screens
     1. Landing screen (LandingFragment): show movie list (have load more)
     2. Detail screen (DetailFragment): show detail screen 
 
-## Services: 1 service
+## Services
     1. GetMoviesService: to get movies via API 
 
 ## Architecture 
