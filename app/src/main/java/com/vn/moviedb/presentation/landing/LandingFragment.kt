@@ -25,13 +25,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.vn.moviedb.R
+import com.vn.moviedb.presentation.contact.LoadMoreMoviesListener
+import com.vn.moviedb.presentation.contact.OnClickMovieListener
 import com.vn.moviedb.presentation.landing.components.landingScreen
 import com.vn.moviedb.presentation.models.GetRemoteMovieState
+import com.vn.moviedb.presentation.models.MovieModel
 import com.vn.moviedb.presentation.services.GetMoviesService
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,6 +45,19 @@ class LandingFragment : Fragment() {
     private val viewModel: LandingViewModel by viewModel()
     private var getMoviesService: GetMoviesService? = null
     private lateinit var serviceConnection: ServiceConnection
+
+    private val onClickMovieListener = object : OnClickMovieListener {
+        override fun invoke(movie: MovieModel) {
+            findNavController().navigate(R.id.action_landingFragment_to_detailFragment)
+        }
+
+    }
+
+    private val onLoadMoreMoviesListener = object : LoadMoreMoviesListener {
+        override fun invoke() {
+            getMoviesService?.loadMoreData()
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -55,9 +73,9 @@ class LandingFragment : Fragment() {
             setContent {
                 landingScreen(
                     viewModel.movieList.value,
-                ) { movie ->
-                    findNavController().navigate(R.id.action_landingFragment_to_detailFragment)
-                }
+                    onClickMovieListener,
+                    onLoadMoreMoviesListener
+                )
             }
         }
     }
@@ -82,8 +100,10 @@ class LandingFragment : Fragment() {
 //                        show loading
                     }
                     is GetRemoteMovieState.Success -> {
-                        Log.d("NNBINH", "setupObservers: Success: ${state.ls.size}")
                         viewModel.updateMovies(state.ls)
+                    }
+                    is GetRemoteMovieState.Error -> {
+                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
                     }
                     else -> {
 //                        hide loading
@@ -101,14 +121,12 @@ class LandingFragment : Fragment() {
                     name: ComponentName?,
                     service: IBinder?,
                 ) {
-                    Log.d("NNBINH", "GetMoviesService: onServiceConnected")
                     val binder = service as GetMoviesService.MovieBinder
                     getMoviesService = binder.getService()
                     setupObservers()
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
-                    Log.d("NNBINH", "GetMoviesService: onServiceDisconnected")
                     getMoviesService = null
                 }
             }

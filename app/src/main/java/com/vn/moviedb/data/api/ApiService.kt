@@ -17,8 +17,11 @@ package com.vn.moviedb.data.api
 
 import com.vn.moviedb.data.api.responses.MovieListResponse
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("/3/discover/movie")
-    suspend fun getRemoteMovies(): MovieListResponse
+    suspend fun getRemoteMovies(
+        @Query("page") page: Int
+    ): MovieListResponse
 }

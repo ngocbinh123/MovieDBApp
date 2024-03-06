@@ -19,6 +19,7 @@ sealed class GetRemoteMovieState {
     data object Idle : GetRemoteMovieState()
 
     data object Loading : GetRemoteMovieState()
+    data class Error(val msg: String) : GetRemoteMovieState()
 
     data class Success(val ls: List<MovieModel>) : GetRemoteMovieState()
 }
