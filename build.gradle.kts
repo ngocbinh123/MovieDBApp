@@ -7,12 +7,14 @@ plugins {
 
 buildscript {
     repositories {
+        google()
         maven {
             url = uri("https://plugins.gradle.org/m2/")
         }
     }
     dependencies {
         classpath("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
     }
 }
 

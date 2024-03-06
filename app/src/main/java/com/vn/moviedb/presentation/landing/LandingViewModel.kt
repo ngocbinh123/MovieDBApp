@@ -23,9 +23,6 @@ import com.vn.moviedb.presentation.models.MovieModel
 class LandingViewModel : ViewModel() {
     private val _movieList = mutableStateOf<List<MovieModel>>(emptyList())
     val movieList: State<List<MovieModel>> = _movieList
-
-//    internal var movieList = MutableLiveData(emptyList<MovieModel>())
-//        private set
     internal fun updateMovies(ls: List<MovieModel>) {
         _movieList.value = ls
     }
