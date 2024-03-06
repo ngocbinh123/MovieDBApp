@@ -13,14 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.di
+package com.vn.moviedb.data.database.entities
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+import androidx.room.Entity
+
+@Entity(tableName = "Movie", primaryKeys = ["id"])
+data class Movie(
+    val adult: Boolean,
+    val andIfYou: String,
+    val backdropPath: String,
+    val genreIds: List<Int>,
+    val id: Int,
+    val originalLanguage: String,
+    val originalTitle: String,
+    val overview: String,
+    val popularity: Double,
+    val posterPath: String,
+    val releaseDate: String,
+    val title: String,
+    val video: Boolean,
+    val voteAverage: Double,
+    val voteCount: Int,
+)

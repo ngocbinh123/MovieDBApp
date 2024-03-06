@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.di
+package com.vn.moviedb.data.database
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.vn.moviedb.data.database.dao.MovieDao
+import com.vn.moviedb.data.database.entities.Movie
+
+@Database(
+    entities = [Movie::class],
+    version = 1,
+    exportSchema = false,
+)
+abstract class MovieDatabase : RoomDatabase() {
+    abstract fun getMoviesDao(): MovieDao
+}

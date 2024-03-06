@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.di
+package com.vn.moviedb.domain.entities
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+data class MovieEntity(
+    val adult: Boolean,
+    val andIfYou: String,
+    val backdropPath: String,
+    val genreIds: List<Int>,
+    val id: Int,
+    val originalLanguage: String,
+    val originalTitle: String,
+    val overview: String,
+    val popularity: Double,
+    val posterPath: String,
+    val releaseDate: String,
+    val title: String,
+    val video: Boolean,
+    val voteAverage: Double,
+    val voteCount: Int,
+)

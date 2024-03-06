@@ -18,6 +18,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        multiDexEnabled = true
+        buildConfigField("String", "API_URL", "\"https://api.themoviedb.org/3/\"")
+        buildConfigField("String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w440_and_h660_face/\"")
+        buildConfigField("String", "API_KEY", "\"${System.getenv().getValue("KEY_MOVIE_API")}\"")
     }
 
     buildTypes {
@@ -28,6 +32,8 @@ android {
                 "proguard-rules.pro",
             )
         }
+        debug {
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -37,6 +43,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -67,8 +74,23 @@ dependencies {
     implementation("androidx.compose.material3:material3-android:1.2.0")
     implementation("io.coil-kt:coil-compose:2.6.0")
 
-//    koin - cicd tools:
+//    retrofit - api
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+//    gson - parsing json
+    implementation("com.google.code.gson:gson:2.10")
+
+//    https://github.com/Kotlin/kotlinx.serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
+//    koin - cicd tools
     implementation("io.insert-koin:koin-android:3.2.2")
+
+//    room database
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

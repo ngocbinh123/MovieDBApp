@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.di
+package com.vn.moviedb.data.api.responses
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Suppress("PLUGIN_IS_NOT_ENABLED")
+@Serializable
+data class MovieListResponse(
+    @SerialName("page")
+    val page: Int,
+    @SerialName("results")
+    val movies: List<MovieResponse>,
+)

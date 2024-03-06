@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.di
+package com.vn.moviedb.domain.entities
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+data class MovieListEntity(
+    val page: Int,
+    val movies: List<MovieEntity>,
+)
