@@ -19,7 +19,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import com.vn.moviedb.domain.usecases.movies.GetRemoteMoviesUseCase
 import com.vn.moviedb.presentation.mapping.toModel
 import com.vn.moviedb.presentation.models.GetRemoteMovieState
@@ -27,7 +26,6 @@ import com.vn.moviedb.presentation.models.MovieModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
