@@ -20,7 +20,6 @@ val appModules =
         viewModelModule,
         retrofitModule,
         apiModule,
-        databaseModule,
         repoModule,
         useCaseModule,
         serviceModule,

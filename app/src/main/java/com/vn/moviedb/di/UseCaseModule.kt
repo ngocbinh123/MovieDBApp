@@ -15,20 +15,12 @@
  */
 package com.vn.moviedb.di
 
-import com.vn.moviedb.domain.usecases.movies.GetLocalMoviesUseCase
 import com.vn.moviedb.domain.usecases.movies.GetRemoteMoviesUseCase
-import com.vn.moviedb.domain.usecases.movies.SaveMoviesUseCase
 import org.koin.dsl.module
 
 val useCaseModule =
     module {
         single {
             GetRemoteMoviesUseCase()
-        }
-        single {
-            GetLocalMoviesUseCase()
-        }
-        single {
-            SaveMoviesUseCase()
         }
     }

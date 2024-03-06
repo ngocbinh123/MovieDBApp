@@ -25,7 +25,7 @@ val spacing24 = 24.dp
 val conner0 = CornerSize(0.dp)
 val conner16 = CornerSize(16.dp)
 
-val detailImageHeight = 240.dp
+val detailImageHeight = 320.dp
 val backButtonSize = 48.dp
 
 
