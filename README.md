@@ -38,4 +38,7 @@
     - DI: koin
     - API: retrofit
     - others: navigation, jetpack compose, spotless
+## Demo
+    Please move to `movie_demo` folder to try app and watch demo video
+    [movie_demo.mov](movie_demo%2Fmovie_demo.mov)
     
