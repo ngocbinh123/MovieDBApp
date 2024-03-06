@@ -19,22 +19,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.vn.moviedb.presentation.contact.OnClickButtonListener
 import com.vn.moviedb.presentation.detail.components.detailScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailFragment : Fragment() {
+    val args: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModel()
 
+    private val onCLickBackButton = object : OnClickButtonListener {
+        override fun invoke() {
+            findNavController().popBackStack()
+        }
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        Toast.makeText(requireContext(), args.movieModel.toString(), Toast.LENGTH_SHORT).show()
         return ComposeView(requireContext()).apply {
             setContent {
-                detailScreen()
+                detailScreen(args.movieModel, onCLickBackButton)
             }
         }
     }

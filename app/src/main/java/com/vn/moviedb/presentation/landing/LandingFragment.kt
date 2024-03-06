@@ -34,6 +34,7 @@ import androidx.navigation.fragment.findNavController
 import com.vn.moviedb.R
 import com.vn.moviedb.presentation.contact.LoadMoreMoviesListener
 import com.vn.moviedb.presentation.contact.OnClickMovieListener
+import com.vn.moviedb.presentation.detail.DetailFragmentArgs
 import com.vn.moviedb.presentation.landing.components.landingScreen
 import com.vn.moviedb.presentation.models.GetRemoteMovieState
 import com.vn.moviedb.presentation.models.MovieModel
@@ -48,7 +49,8 @@ class LandingFragment : Fragment() {
 
     private val onClickMovieListener = object : OnClickMovieListener {
         override fun invoke(movie: MovieModel) {
-            findNavController().navigate(R.id.action_landingFragment_to_detailFragment)
+            val args = DetailFragmentArgs(movie).toBundle()
+            findNavController().navigate(R.id.action_landingFragment_to_detailFragment, args)
         }
 
     }
