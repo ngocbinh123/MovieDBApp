@@ -18,5 +18,5 @@ package com.vn.moviedb.data.repo.movie
 import com.vn.moviedb.data.repo.base.ApiRepo
 
 class GetRemoteMoviesRepo : ApiRepo() {
-    suspend fun getRemoteMoviesList() = apiService.getRemoteMovies()
+    suspend fun getRemoteMoviesList(page: Int) = apiService.getRemoteMovies(page)
 }

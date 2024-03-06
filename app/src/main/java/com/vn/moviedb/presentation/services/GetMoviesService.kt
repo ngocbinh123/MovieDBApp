@@ -23,18 +23,21 @@ import android.util.Log
 import com.vn.moviedb.domain.usecases.movies.GetRemoteMoviesUseCase
 import com.vn.moviedb.presentation.mapping.toModel
 import com.vn.moviedb.presentation.models.GetRemoteMovieState
+import com.vn.moviedb.presentation.models.MovieModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
+private const val FIRST_PAGE = 1
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetMoviesService : Service() {
     private val fetchMoviesUseCase: GetRemoteMoviesUseCase by inject()
@@ -43,6 +46,8 @@ class GetMoviesService : Service() {
         get() = allMoviesFlow
 
     private val binder = MovieBinder()
+    private val allMovies : MutableList<MovieModel> = mutableListOf()
+    private var currentPage = FIRST_PAGE
 
     override fun onCreate() {
         super.onCreate()
@@ -67,17 +72,25 @@ class GetMoviesService : Service() {
         }
     }
 
-    private fun fetchMovies() {
+    fun loadMoreData() {
+        fetchMovies(currentPage + 1)
+    }
+
+    private fun fetchMovies(page: Int = FIRST_PAGE) {
         CoroutineScope(Dispatchers.IO).launch {
             allMoviesFlow.value = GetRemoteMovieState.Loading
-            delay(2000L)
-            fetchMoviesUseCase.getRemoteMoviesFlow()
+            fetchMoviesUseCase.getRemoteMoviesFlow(page)
                 .flatMapLatest { entities ->
                     flow {
+                        if (page == FIRST_PAGE) allMovies.clear()
+                        currentPage = page
                         val models = entities.map { it.toModel() }
-                        Log.d("NNBINH", "fetchMovies: $models")
-                        emit(GetRemoteMovieState.Success(models))
+                        allMovies.addAll(models)
+                        emit(GetRemoteMovieState.Success(allMovies))
                     }
+                }
+                .catch { e ->
+                    GetRemoteMovieState.Error(e.toString())
                 }
                 .flowOn(Dispatchers.IO)
                 .collect { result ->

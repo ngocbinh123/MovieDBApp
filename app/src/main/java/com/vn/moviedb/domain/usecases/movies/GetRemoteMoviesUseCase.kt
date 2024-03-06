@@ -25,10 +25,10 @@ import org.koin.core.component.inject
 class GetRemoteMoviesUseCase : KoinComponent {
     private val repo: GetRemoteMoviesRepo by inject()
 
-    fun getRemoteMoviesFlow() =
+    fun getRemoteMoviesFlow(page: Int) =
         flow {
-            val response = repo.getRemoteMoviesList()
-            Log.d("NNBINH", "GetRemoteMoviesUseCase output: $response")
+            val response = repo.getRemoteMoviesList(page)
+            Log.d("NNBINH", "GetRemoteMoviesUseCase output ($page): $response")
             val entities = response.results.map { it.toEntity() }
             emit(entities)
         }
