@@ -20,10 +20,10 @@ subprojects {
     apply(plugin = "com.diffplug.spotless")
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         kotlin {
-            target("**/*.kt")
             targetExclude("$buildDir/**/*.kt")
-
-            ktlint()
+            ktlint().editorConfigOverride(
+                mapOf(" standard:value-argument-comment" to "disabled")
+            )
             licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
         }
 
