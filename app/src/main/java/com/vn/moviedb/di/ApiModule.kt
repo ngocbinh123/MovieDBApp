@@ -15,12 +15,11 @@
  */
 package com.vn.moviedb.di
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+import com.vn.moviedb.data.api.ApiService
+import org.koin.dsl.module
+import retrofit2.Retrofit
+
+val apiModule =
+    module {
+        single(createdAtStart = false) { get<Retrofit>().create(ApiService::class.java) }
+    }

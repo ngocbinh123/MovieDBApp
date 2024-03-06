@@ -15,12 +15,19 @@
  */
 package com.vn.moviedb.di
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+import android.app.Application
+import androidx.room.Room
+import com.vn.moviedb.data.database.MovieDatabase
+import org.koin.dsl.module
+
+val databaseModule =
+    module {
+        single {
+            movieDatabase(get())
+        }
+    }
+
+private fun movieDatabase(app: Application): MovieDatabase {
+    return Room.databaseBuilder(app, MovieDatabase::class.java, "MovieDatabase")
+        .build()
+}

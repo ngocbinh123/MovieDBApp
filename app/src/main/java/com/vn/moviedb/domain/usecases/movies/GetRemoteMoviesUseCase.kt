@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vn.moviedb.di
+package com.vn.moviedb.domain.usecases.movies
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+import com.vn.moviedb.data.repo.movie.GetRemoteMoviesRepo
+import kotlinx.coroutines.flow.flow
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+
+class GetRemoteMoviesUseCase : KoinComponent {
+    private val repo: GetRemoteMoviesRepo by inject()
+
+    fun getRemoteMoviesFlow() =
+        flow {
+            val response = repo.getRemotePriceList()
+            emit(response)
+        }
+}

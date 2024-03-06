@@ -15,12 +15,20 @@
  */
 package com.vn.moviedb.di
 
-val appModules =
-    listOf(
-        viewModelModule,
-        retrofitModule,
-        apiModule,
-        databaseModule,
-        repoModule,
-        useCaseModule,
-    )
+import com.vn.moviedb.data.repo.movie.GetLocalMoviesRepo
+import com.vn.moviedb.data.repo.movie.GetRemoteMoviesRepo
+import com.vn.moviedb.data.repo.movie.SaveMoviesRepo
+import org.koin.dsl.module
+
+val repoModule =
+    module {
+        single {
+            GetRemoteMoviesRepo()
+        }
+        single {
+            GetLocalMoviesRepo()
+        }
+        single {
+            SaveMoviesRepo()
+        }
+    }
